@@ -14,8 +14,7 @@ inline void renderInbetweenRow(int row, const ImVec2& inbetween, int& reorderFro
         "##inbetweenrow",
         true,
         ImGuiSelectableFlags_SpanAllColumns |
-        ImGuiSelectableFlags_AllowOverlap |
-        ImGuiSelectableFlags_AllowItemOverlap,
+        ImGuiSelectableFlags_AllowOverlap,
         { 0.0f, 8.0f }
     );
 
