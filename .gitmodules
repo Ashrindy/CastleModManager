@@ -1,0 +1,6 @@
+[submodule "external/inih/inih"]
+	path = external/inih/inih
+	url = https://github.com/benhoyt/inih
+[submodule "external/nativefiledialog-extended"]
+	path = external/nativefiledialog-extended
+	url = https://github.com/btzy/nativefiledialog-extended
