@@ -33,7 +33,7 @@ add_executable (castle-mm
 target_precompile_headers(castle-mm PRIVATE "src/pch.h")
 target_compile_features(castle-mm PUBLIC cxx_std_20)
 target_include_directories(castle-mm PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
-target_link_libraries(castle-mm PRIVATE glfw imgui nfd inih stb_image)
+target_link_libraries(castle-mm PRIVATE ${CASTLE_GLFW_TARGET} imgui nfd inih stb_image)
 if(LINUX)
   set(OpenGL_GL_PREFERENCE "GLVND")
   find_package(OpenGL REQUIRED)

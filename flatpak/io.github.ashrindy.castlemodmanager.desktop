@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Castle Mod Manager
+Exec=/app/bin/castle-mm
+Icon=io.github.ashrindy.castlemodmanager
+Type=Application
+Categories=Game;
+Keywords=mod;loader;manager
