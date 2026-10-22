@@ -25,5 +25,6 @@ public:
 	}
 	void getDpiScale();
 	void setOSDecoration();
+	void setWindowIcon();
 	~Graphics();
 };

@@ -1,5 +1,9 @@
 project("castle-mm")
 
+if(WIN32)
+    set(WINDOWS_RESOURCES "src/res/resource.rc")
+endif()
+
 add_executable (castle-mm
   "src/castle-mm.cpp" 
   "src/ui/graphics/graphics.cpp" 
@@ -22,12 +26,14 @@ add_executable (castle-mm
   "src/file-dialog.cpp" 
   "src/file-dialog.h" 
   "src/res/Inter.h" 
+  "src/res/icon.h" 
+  ${WINDOWS_RESOURCES}
 )
 
 target_precompile_headers(castle-mm PRIVATE "src/pch.h")
 target_compile_features(castle-mm PUBLIC cxx_std_20)
 target_include_directories(castle-mm PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
-target_link_libraries(castle-mm PRIVATE glfw imgui nfd inih)
+target_link_libraries(castle-mm PRIVATE glfw imgui nfd inih stb_image)
 if(LINUX)
   set(OpenGL_GL_PREFERENCE "GLVND")
   find_package(OpenGL REQUIRED)

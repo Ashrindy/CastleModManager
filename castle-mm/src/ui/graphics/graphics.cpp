@@ -2,6 +2,9 @@
 #include "themes.h"
 #include <vector>
 #include "../../res/Inter.h"
+#include "../../res/icon.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
 
 Graphics* Graphics::instance = nullptr;
 
@@ -50,6 +53,30 @@ void Graphics::getDpiScale() {
 #endif
 }
 
+void Graphics::setWindowIcon() {
+    int width, height, channels;
+    unsigned char* pixels = stbi_load_from_memory(
+        (unsigned char*)castlemm_icon_256x256, 
+        sizeof(castlemm_icon_256x256), 
+        &width, 
+        &height, 
+        &channels, 
+        4
+    );
+    
+    if (!pixels)
+        return;
+
+    GLFWimage images[1];
+    images[0].width = width;
+    images[0].height = height;
+    images[0].pixels = pixels;
+
+    glfwSetWindowIcon(window, 1, images);
+
+    stbi_image_free(pixels);
+}
+
 bool Graphics::init() {
     if (!glfwInit())
         return false;
@@ -69,6 +96,7 @@ bool Graphics::init() {
     glfwSwapInterval(1);
     setOSDecoration();
     getDpiScale();
+    setWindowIcon();
     glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height) {
         Graphics::instance->render();
     });

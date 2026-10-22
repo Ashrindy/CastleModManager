@@ -1,4 +1,7 @@
-# Castle Mod Manager
+<h1>
+    <img width="32" align="left" src="res/icon-256x256.png" />
+    Castle Mod Manager
+</h1>
 
 A mod manager for the game Castle Strike.
 
