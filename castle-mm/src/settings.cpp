@@ -16,11 +16,9 @@ void Settings::serialize(const std::filesystem::path& filepath) {
 }
 
 void Settings::deserialize(const std::filesystem::path& filepath) {
-    if (std::filesystem::exists(filepath)) {
-        INIReader settings{ filepath.string() };
+    INIReader settings{ filepath.string() };
         
-        modsFolderPath = settings.GetString("Main", "ModsFolderPath", "mods");
-        gameFolderPath = settings.GetString("Main", "GameFolderPath", "C:\\CastleStrike");
-        languageName = settings.GetString("Main", "LanguageName", "en-US");
-    }
+    modsFolderPath = settings.GetString("Main", "ModsFolderPath", "mods");
+    gameFolderPath = settings.GetString("Main", "GameFolderPath", "C:\\CastleStrike");
+    languageName = settings.GetString("Main", "LanguageName", "en-US");
 }

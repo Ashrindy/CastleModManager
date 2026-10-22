@@ -35,8 +35,6 @@ void Graphics::setOSDecoration() {
         0, 0, width - 1, height,
         SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE
     );
-#else
-    // TODO: See if this is necessary for Linux as well.
 #endif
 }
 
@@ -47,7 +45,7 @@ void Graphics::getDpiScale() {
 		auto dpi = GetDpiForWindow(hwnd);
 		dpiScale = dpi / 96.0f;
 	}
-#elif
+#else
 	// TODO: Figure this out on Linux.
 #endif
 }

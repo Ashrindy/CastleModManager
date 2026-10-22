@@ -1,5 +1,6 @@
 include(FetchContent)
 
+set(GLFW_BUILD_DOCS OFF)
 FetchContent_Declare(
   glfw
   GIT_REPOSITORY https://github.com/glfw/glfw.git

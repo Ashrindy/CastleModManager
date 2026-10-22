@@ -11,6 +11,9 @@
 
 #ifdef __WIN32
 #include <windows.h>
+#else
+#include <sys/types.h>
+#include <unistd.h>
 #endif
 
 Application* Application::instance = nullptr;
@@ -173,7 +176,22 @@ void Application::launchGame(const std::filesystem::path& gamePath) {
     CloseHandle(pi.hProcess);
     CloseHandle(pi.hThread);
 #else
-    // TODO: Use Wine or Proton to launch the exe
+    pid_t pid = fork();
+
+    if (pid == 0) {
+        chdir(gamePath.parent_path().string().c_str());
+        setenv("WINEDLLOVERRIDES", "d3d8", 1);
+
+        auto gamePathS = gamePath.string();
+        char* args[] = {
+            const_cast<char*>("wine"),
+            const_cast<char*>(gamePathS.c_str()),
+            nullptr
+        };
+
+        execvp("wine", args);
+        _exit(127);
+    }
 #endif
 }
 
