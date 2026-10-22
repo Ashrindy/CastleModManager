@@ -60,7 +60,7 @@ void Application::loadMods(const std::filesystem::path& modsFolder) {
         std::vector<std::string> activeModIds{};
         int activeModCount = mainIni.GetInteger("Main", "ActiveModCount", 0);
         for (int i = 0; i < activeModCount; i++) {
-            char key[16];
+            char key[32];
             snprintf(key, sizeof(key), "ActiveMod%d", i);
             activeModIds.emplace_back(mainIni.GetString("Main", key, ""));
         }
@@ -139,7 +139,7 @@ void Application::saveMods(const std::filesystem::path& modsFolder) {
     for (int i = 0; i < (int)mods.size(); i++) {
         auto& mod = mods[i];
         if (mod.isEnabled) {
-            char key[16];
+            char key[32];
             snprintf(key, sizeof(key), "ActiveMod%d", activeModCount);
             mainIni << key << "=" << mod.id << '\n';
             activeModCount++;
@@ -184,8 +184,8 @@ void Application::launchGame(const std::filesystem::path& gamePath) {
 
         auto gamePathS = gamePath.string();
         char* args[] = {
-            const_cast<char*>("wine"),
-            const_cast<char*>(gamePathS.c_str()),
+            (char*)"wine",
+            (char*)gamePathS.c_str(),
             nullptr
         };
 
