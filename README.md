@@ -1,5 +1,5 @@
 <h1>
-    <img width="48" align="left" src="res/icon-256x256.png" />
+    <img width="36" align="left" src="res/icon-256x256.png" />
     Castle Mod Manager
 </h1>
 
