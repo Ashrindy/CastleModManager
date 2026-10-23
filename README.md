@@ -5,22 +5,22 @@
 
 A mod manager for the game Castle Strike.
 
-# Installation
-## Windows
+## Installation
+### Windows
 Download the `windows` binary (exe) from the `Releases` tab, store it anywhere.
-## Linux
+### Linux
 The recommended method for installation is through Flathub. Manual installation with flatpak also works. <br/>
 Other method is downloading the `linux` archive from the `Releases` tab, extract anywhere and use.
 
-# Building 
-## Windows
+## Building 
+### Windows
 Requires [MinGW](https://github.com/niXman/mingw-builds-binaries) and [CMake](https://cmake.org/)
 ```
 $ cmake .. -B build --preset mingw-windows-release
 $ cd build
 $ mingw32-make -j 8
 ```
-## Linux
+### Linux
 Requires GCC and CMake
 ```
 $ cmake .. -B build --preset gcc-linux-release
