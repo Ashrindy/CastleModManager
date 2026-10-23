@@ -2,6 +2,7 @@
 #include <vector>
 #include "settings.h"
 #include "ui/graphics/graphics.h"
+#include "modloader-handler.h"
 
 struct Mod {
 	std::string name;
@@ -18,6 +19,7 @@ public:
 
 	Graphics* graphics;
 	Settings* settings;
+	ModLoaderHandler* modLoaderHandler;
 	std::filesystem::path modsFolder{};
 	std::vector<Mod> mods;
 

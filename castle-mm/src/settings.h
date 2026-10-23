@@ -6,6 +6,7 @@ public:
     std::string modsFolderPath{};
     std::string gameFolderPath{};
     std::string languageName{};
+    bool autoFetch{ true };
 
     inline void init() {
         instance = this;

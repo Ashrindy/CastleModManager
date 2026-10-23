@@ -21,7 +21,15 @@ else()
   set(CASTLE_GLFW_TARGET glfw)
 endif()
 
+FetchContent_Declare(
+    yyjson 
+    GIT_REPOSITORY https://github.com/ibireme/yyjson.git 
+    GIT_TAG master
+)
+FetchContent_MakeAvailable(yyjson)
+
 add_subdirectory(imgui)
 add_subdirectory(nativefiledialog-extended)
 add_subdirectory(inih)
 add_subdirectory(stb_image)
+add_subdirectory(curl)

@@ -31,6 +31,9 @@ void Application::init() {
 	graphics->init();
     graphics->renderFunc = renderUI;
 
+    modLoaderHandler = new ModLoaderHandler{};
+    modLoaderHandler->init();
+
     const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
     maxFPS = mode->refreshRate;
     maxDeltaTime = (1.0 / maxFPS) * 1000;
@@ -197,6 +200,8 @@ void Application::launchGame(const std::filesystem::path& gamePath) {
 
 Application::~Application() {
     delete graphics;
+    delete modLoaderHandler;
+    delete settings;
 }
 
 void Application::update() {

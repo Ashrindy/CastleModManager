@@ -7,9 +7,13 @@
     "finish-args": [
         "--share=ipc",
         "--socket=wayland",
+        "--socket=fallback-x11",
         "--device=dri",
-        "--filesystem=host",
-        "--env=GTK_THEME=Adwaita:dark"
+        "--filesystem=/media",
+        "--filesystem=/run/media",
+        "--filesystem=/mnt",
+        "--env=GTK_THEME=Adwaita:dark",
+        "--share=network"
     ],
     "modules": [
         {
