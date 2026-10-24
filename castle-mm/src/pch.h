@@ -4,3 +4,4 @@
 #include <filesystem>
 
 #include "languages.h"
+#include "version.h"

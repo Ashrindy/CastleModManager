@@ -76,6 +76,12 @@ void renderUI() {
 
     renderNativeWindowBar();
 
+    auto beforeVersionPos = ImGui::GetCursorPos();
+    auto versionTexSize = ImGui::CalcTextSize(version);
+    ImGui::SetCursorPos({ ImGui::GetWindowWidth() - (versionTexSize.x + padding), ImGui::GetCursorPosY() + 2 });
+    ImGui::Text(version);
+    ImGui::SetCursorPos(beforeVersionPos);
+
     ImGui::BeginTabBar("MainTab");
     
     renderTab(translate("mods-tab-name"), renderModsTab);

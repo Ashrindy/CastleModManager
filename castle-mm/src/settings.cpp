@@ -28,7 +28,7 @@ void Settings::deserialize(const std::filesystem::path& filepath) {
     INIReader settings{ filepath.string() };
 #endif
         
-    modsFolderPath = settings.GetString("Main", "ModsFolderPath", "mods");
+    modsFolderPath = settings.GetString("Main", "ModsFolderPath", "C:\\CastleStrike\\mods");
     gameFolderPath = settings.GetString("Main", "GameFolderPath", "C:\\CastleStrike");
     languageName = settings.GetString("Main", "LanguageName", "en-US");
     autoFetch = settings.GetBoolean("Main", "AutoFetchModLoader", false);

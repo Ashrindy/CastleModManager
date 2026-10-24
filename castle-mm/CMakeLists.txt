@@ -1,4 +1,4 @@
-project("castle-mm")
+project("castle-mm" VERSION 0.0.1)
 
 if(WIN32)
     set(WINDOWS_RESOURCES "src/res/resource.rc")
@@ -27,6 +27,7 @@ add_executable (castle-mm
   "src/file-dialog.h" 
   "src/modloader-handler.cpp" 
   "src/modloader-handler.h" 
+  "src/version.h" 
   "src/res/Inter.h" 
   "src/res/icon.h" 
   ${WINDOWS_RESOURCES}
@@ -35,6 +36,10 @@ add_executable (castle-mm
 target_precompile_headers(castle-mm PRIVATE "src/pch.h")
 target_compile_features(castle-mm PUBLIC cxx_std_20)
 target_include_directories(castle-mm PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
+target_compile_definitions(castle-mm PRIVATE 
+  CASTLEMM_VERSION=${PROJECT_VERSION}
+  CASTLEMM_VERSION_S="${PROJECT_VERSION}"
+)
 target_link_libraries(castle-mm PRIVATE ${CASTLE_GLFW_TARGET} imgui nfd inih stb_image CURL::libcurl yyjson)
 if(LINUX)
   set(OpenGL_GL_PREFERENCE "GLVND")
