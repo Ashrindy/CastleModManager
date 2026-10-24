@@ -1,4 +1,5 @@
 #include "graphics/graphics.h"
+#include "mod-details.h"
 #include "../app.h"
 
 // This is so dirty, I don't even know how I came up with all this "inbetween line" crap.
@@ -56,9 +57,9 @@ inline void renderModsTab() {
     int modToDelete{ -1 };
 
     if (ImGui::BeginTable("mods-table", 3, ImGuiTableFlags_Borders | ImGuiTableFlags_BordersOuter, tableSize)) {
-        ImGui::TableSetupColumn(translate("mods-tab_name"));
-        ImGui::TableSetupColumn(translate("mods-tab_version"));
-        ImGui::TableSetupColumn(translate("mods-tab_author"));
+        ImGui::TableSetupColumn(translate("general_name"));
+        ImGui::TableSetupColumn(translate("general_version"));
+        ImGui::TableSetupColumn(translate("general_author"));
 
         ImGui::TableHeadersRow();
 
@@ -106,6 +107,9 @@ inline void renderModsTab() {
 
                 if (ImGui::MenuItem(translate("mods-tab_revealmod")))
                     app->revealMod(row);
+
+                if (ImGui::MenuItem(translate("mods-tab_editmod")))
+                    setModDetails(&mods[row]);
 
                 ImGui::EndPopup();
             }

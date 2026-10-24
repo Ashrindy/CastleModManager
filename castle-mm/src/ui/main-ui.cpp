@@ -4,6 +4,7 @@
 #include "native-window-bar.inl"
 #include "mods-tab.inl"
 #include "settings-tab.inl"
+#include "mod-details.h"
 
 void renderContentFrame(void (*func)()) {
     auto* windowViewport = ImGui::GetWindowViewport();
@@ -88,7 +89,7 @@ void renderUI() {
     renderTab(translate("settings-tab-name"), renderSettingsTab);
 
     // Manually draw a Separator to not take up space.
-    ImVec2 dividerLineStart{ ImGui::GetCursorPos() };
+    ImVec2 dividerLineStart{ ImGui::GetCursorScreenPos() };
     dividerLineStart.y -= 0.5f;
     ImVec2 dividerLineEnd{ dividerLineStart };
     dividerLineEnd.x += ImGui::GetWindowWidth();
@@ -101,4 +102,6 @@ void renderUI() {
     ImGui::End();
 
     ImGui::PopStyleVar(3);
+
+    renderModDetails();
 }

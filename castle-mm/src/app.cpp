@@ -56,6 +56,30 @@ void Application::loop() {
     }
 }
 
+Mod Application::loadMod(const std::filesystem::path& modPath) {
+    Mod mod{};
+    mod.id = "";
+
+    mod.isEnabled = false;
+            
+    if (std::filesystem::exists(modPath)) {
+        INIReader modIni{ modPath.string() };
+        mod.name = modIni.GetString("Desc", "Name", "");
+        mod.version = modIni.GetString("Desc", "Version", "");
+        mod.author = modIni.GetString("Desc", "Author", "");
+        mod.folderPath = std::filesystem::path{ modPath }.parent_path();
+        std::string dllFiles = modIni.GetString("Main", "DLLFile", "");
+        if (!dllFiles.empty()) {
+            std::stringstream stream{ dllFiles };
+            std::string dllName;
+            while (std::getline(stream, dllName, ',')) {
+                mod.dllFiles.push_back(dllName);
+            }
+        }
+    }
+    return mod;
+}
+
 void Application::loadMods(const std::filesystem::path& modsFolder) {
     std::filesystem::path mainIniPath{ modsFolder / "mods.ini" };
     if (std::filesystem::exists(mainIniPath)) {
@@ -72,7 +96,8 @@ void Application::loadMods(const std::filesystem::path& modsFolder) {
         std::vector<std::string> modKeys = mainIni.Keys("Mods");
 
         for (auto& key : modKeys) {
-            Mod& mod = mods.emplace_back();
+            std::string modIniPath = mainIni.GetString("Mods", key, "");
+            Mod& mod = mods.emplace_back(loadMod(modIniPath));
             mod.id = key;
 
             auto it = std::find_if(activeModIds.begin(), activeModIds.end(),
@@ -80,15 +105,6 @@ void Application::loadMods(const std::filesystem::path& modsFolder) {
                     return m == key;
                 });
             mod.isEnabled = it != activeModIds.end();
-            
-            std::string modIniPath = mainIni.GetString("Mods", key, "");
-            if (std::filesystem::exists(modIniPath)) {
-                INIReader modIni{ modIniPath };
-                mod.name = modIni.GetString("Desc", "Name", "");
-                mod.version = modIni.GetString("Desc", "Version", "");
-                mod.author = modIni.GetString("Desc", "Author", "");
-                mod.folderPath = std::filesystem::path{ modIniPath }.parent_path();
-            }
         }
 
         auto modsFolderItBegin = std::filesystem::directory_iterator{ modsFolder };
@@ -110,22 +126,14 @@ void Application::loadMods(const std::filesystem::path& modsFolder) {
                 if (exists)
                     continue;
 
-                Mod& mod = mods.emplace_back();
+                std::string modIniPath = (x.path() / "mod.ini").string();
+                Mod& mod = mods.emplace_back(loadMod(modIniPath));
                 std::random_device rd;
                 std::vector<char> id{ 8 };
                 std::generate(id.begin(), id.end(), std::ref(rd));
                 mod.id = std::to_string(*(int64_t*)id.data());
 
                 mod.isEnabled = false;
-                    
-                std::string modIniPath = (x.path() / "mod.ini").string();
-                if (std::filesystem::exists(modIniPath)) {
-                    INIReader modIni{ modIniPath };
-                    mod.name = modIni.GetString("Desc", "Name", "");
-                    mod.version = modIni.GetString("Desc", "Version", "");
-                    mod.author = modIni.GetString("Desc", "Author", "");
-                    mod.folderPath = std::filesystem::path{ modIniPath }.parent_path();
-                }
             }
 
             saveMods(modsFolder);
@@ -139,26 +147,45 @@ void Application::loadMods(const std::filesystem::path& modsFolder) {
         });
     
         for (auto& x : missingMods) {
-            Mod& mod = mods.emplace_back();
+            std::string modIniPath = (x.path() / "mod.ini").string();
+            Mod& mod = mods.emplace_back(loadMod(modIniPath));
             std::random_device rd;
             std::vector<char> id{ 8 };
             std::generate(id.begin(), id.end(), std::ref(rd));
             mod.id = std::to_string(*(int64_t*)id.data());
 
             mod.isEnabled = false;
-                    
-            std::string modIniPath = (x.path() / "mod.ini").string();
-            if (std::filesystem::exists(modIniPath)) {
-                INIReader modIni{ modIniPath };
-                mod.name = modIni.GetString("Desc", "Name", "");
-                mod.version = modIni.GetString("Desc", "Version", "");
-                mod.author = modIni.GetString("Desc", "Author", "");
-                mod.folderPath = std::filesystem::path{ modIniPath }.parent_path();
-            }
         }
 
         saveMods(modsFolder);
     }
+}
+
+void Application::saveMod(const Mod& mod) {
+    std::filesystem::path modIniPath{ mod.folderPath / "mod.ini" };
+    std::ofstream modIni{ modIniPath };
+
+    modIni << "[Desc]\n";
+    modIni << "Name=" << mod.name << '\n';
+    modIni << "Author=" << mod.author << '\n';
+    modIni << "Version=" << mod.version << "\n\n";
+
+    modIni << "[Main]\n";
+    modIni << "DLLFile=";
+    int fileIdx{ 0 };
+    int skippedFileCount{ 0 };
+    for (auto& file : mod.dllFiles) {
+        if (file.empty()) {
+            skippedFileCount++;
+            continue;
+        }
+
+        modIni << file;
+        if (fileIdx != mod.dllFiles.size() - (1 + skippedFileCount))
+            modIni << ',';
+        fileIdx++;
+    }
+    modIni << '\n';
 }
 
 void Application::saveMods(const std::filesystem::path& modsFolder) {
@@ -227,7 +254,7 @@ void Application::createMod() {
     else
         newIni << "NewModAuthor\n";
 #else
-    newIni << getlogin() << "\n";
+    newIni << getlogin() << '\n';
 #endif
     newIni << "Version=1.0\n\n";
     newIni << "[Main]\n";

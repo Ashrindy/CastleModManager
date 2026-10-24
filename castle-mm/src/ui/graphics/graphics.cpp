@@ -114,6 +114,8 @@ bool Graphics::init() {
     io.LogFilename = nullptr;
 #ifdef ENABLE_FLATPAK
     io.ConfigFlags &= ~ImGuiConfigFlags_ViewportsEnable;
+#else
+    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 #endif
 
     ImGui::StyleColorsDark();
@@ -153,6 +155,17 @@ void Graphics::renderEnd() {
     glClearColor(clearColor.x, clearColor.y, clearColor.z, clearColor.w);
     glClear(GL_COLOR_BUFFER_BIT);
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+#ifdef __WIN32
+    if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+        GLFWwindow* backup_current_context = glfwGetCurrentContext();
+
+        ImGui::UpdatePlatformWindows();
+        ImGui::RenderPlatformWindowsDefault();
+
+        glfwMakeContextCurrent(backup_current_context);
+    }
+#endif
 
     glfwSwapBuffers(window);
 }

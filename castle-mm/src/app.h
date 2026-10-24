@@ -9,6 +9,7 @@ struct Mod {
 	std::string version;
 	std::string author;
 	std::string id;
+	std::vector<std::string> dllFiles;
 	std::filesystem::path folderPath;
 	bool isEnabled;
 };
@@ -25,7 +26,9 @@ public:
 
 	void init();
 	void loop();
+	Mod loadMod(const std::filesystem::path& modPath);
 	void loadMods(const std::filesystem::path& modsFolder);
+	void saveMod(const Mod& mod);
 	void saveMods(const std::filesystem::path& modsFolder);
 	void deleteMod(int index);
 	void revealMod(int index);

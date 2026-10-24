@@ -70,7 +70,7 @@ void setTheme() {
     style.ChildBorderSize   = 1;
     style.PopupBorderSize   = 1;
     style.FrameBorderSize   = 1;
-    style.WindowRounding    = 12;
+    style.WindowRounding    = 0;
     style.ChildRounding     = 10;
     style.FrameRounding     = 6;
     style.PopupRounding     = 6;

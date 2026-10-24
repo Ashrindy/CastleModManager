@@ -2,6 +2,14 @@
 #include <utility>
 
 static std::pair<const char*, const char*> en_US[] {
+    // General
+    { "general_add", "Add" },
+    { "general_remove", "Remove" },
+    { "general_name", "Name" },
+    { "general_author", "Author" },
+    { "general_version", "Version" },
+    { "general_main", "Main" },
+    { "general_details", "Details" },
     // Tab names
     { "mods-tab-name", "Mods" },
     { "settings-tab-name", "Settings" },
@@ -9,14 +17,15 @@ static std::pair<const char*, const char*> en_US[] {
     { "save-button-name", "Save" },
     { "save-and-play-button-name", "Save and Play" },
     // Mods tab
-    { "mods-tab_name", "Name" },
-    { "mods-tab_author", "Author" },
-    { "mods-tab_version", "Version" },
     { "mods-tab_deletemod", "Delete mod" },
     { "mods-tab_deletemod-tooltip", "Deletes all of the mod's contents." },
     { "mods-tab_revealmod", "Open mod's directory" },
+    { "mods-tab_editmod", "Edit mod" },
     { "mods-tab_refresh-list", "Refresh List" },
     { "mods-tab_create-mod", "Create Mod" },
+    // Mod Details
+    { "mod-details_name", "Mod Details" },
+    { "mod-details_dllfiles", "DLL Files" },
     // Settings tab
     { "settings-tab_modmanager-sectionname", "Mod Manager" },
     { "settings-tab_modmanager-mods_folder", "Mods Folder" },

@@ -2,6 +2,7 @@
 #include "../app.h"
 #include "../settings.h"
 #include "../file-dialog.h"
+#include "editors.h"
 
 #include <imgui_stdlib.h>
 
@@ -21,22 +22,6 @@ bool pathEditor(std::string& value) {
         if (changed |= !outPath.empty())
             value = outPath.string();
     }
-
-    return changed;
-}
-
-bool settingEditor(const char* name, bool (*func)()) {
-    bool changed{ false };
-    ImGui::PushID(name);
-
-    ImGui::AlignTextToFramePadding();
-    ImGui::Text("%s:", name);
-    ImGui::SameLine();
-
-    ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x);
-    changed |= func();
-
-    ImGui::PopID();
 
     return changed;
 }
