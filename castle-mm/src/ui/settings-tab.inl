@@ -124,6 +124,7 @@ inline void renderSettingsTab() {
             fclose(file);
 
             modLoaderHandler->setDownloadedReleaseId(modLoaderHandler->latestReleaseInfo.id);
+            modLoaderHandler->refreshDownloadedReleaseId();
 
             statusMessage = translate("settings-tab_modloader-download_success");
         });
@@ -154,8 +155,10 @@ inline void renderSettingsTab() {
     else
         ImGui::Text("%s: %s", translate("settings-tab_modloader-status"), statusMessage);
 
-    if (changed)
+    if (changed) {
+        modLoaderHandler->refreshDownloadedReleaseId();
         settings->serialize();
+    }
 
     if (requiresModReload) {
         auto* app = Application::instance;

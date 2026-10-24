@@ -13,6 +13,7 @@
         "--filesystem=/media",
         "--filesystem=/run/media",
         "--filesystem=/mnt",
+        "--filesystem=~/.var/app",
         "--env=GTK_THEME=Adwaita:dark",
         "--share=network"
     ],

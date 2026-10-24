@@ -97,9 +97,11 @@ bool Graphics::init() {
     setOSDecoration();
     getDpiScale();
     setWindowIcon();
+#ifdef __WIN32
     glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height) {
         Graphics::instance->render();
     });
+#endif
     //glfwSetWindowPos(window, 150, 150);
     glfwSetWindowSizeLimits(window, 470, 240, GLFW_DONT_CARE, GLFW_DONT_CARE);
 
@@ -110,6 +112,9 @@ bool Graphics::init() {
     largerFont = io.Fonts->AddFontFromMemoryCompressedTTF((void*)Inter_compressed_data, Inter_compressed_size, 38 * dpiScale);
     io.IniFilename = nullptr;
     io.LogFilename = nullptr;
+#ifdef ENABLE_FLATPAK
+    io.ConfigFlags &= ~ImGuiConfigFlags_ViewportsEnable;
+#endif
 
     ImGui::StyleColorsDark();
     setTheme();
