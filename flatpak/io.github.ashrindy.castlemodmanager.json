@@ -1,7 +1,7 @@
 {
     "app-id": "io.github.ashrindy.castlemodmanager",
     "runtime": "org.freedesktop.Platform",
-    "runtime-version": "25.08",
+    "runtime-version": "26.08",
     "sdk": "org.freedesktop.Sdk",
     "command": "castle-mm",
     "finish-args": [
@@ -50,8 +50,8 @@
         {
             "name": "castle-mod-manager",
             "buildsystem": "cmake",
-            "config-preset": "gcc-linux-release",
             "config-opts": [
+                "--preset=flatpak",
                 "-DCMAKE_PREFIX_PATH=/app",
                 "-DENABLE_FLATPAK=ON"
             ],
