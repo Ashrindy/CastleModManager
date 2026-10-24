@@ -183,16 +183,27 @@ void Application::launchGame(const std::filesystem::path& gamePath) {
 
     if (pid == 0) {
         chdir(gamePath.parent_path().string().c_str());
-        setenv("WINEDLLOVERRIDES", "d3d8", 1);
+        if (setenv("WINEDLLOVERRIDES", "d3d8=n,b", 1) == -1) {
+            perror("setenv");
+            _exit(127);
+        }
 
         auto gamePathS = gamePath.string();
         char* args[] = {
+#ifdef ENABLE_FLATPAK
+            (char*)"flatpak-spawn",
+            (char*)"--host",
+#endif
             (char*)"wine",
             (char*)gamePathS.c_str(),
             nullptr
         };
 
+#ifdef ENABLE_FLATPAK
+        execvp("flatpak-spawn", args);
+#else
         execvp("wine", args);
+#endif
         _exit(127);
     }
 #endif

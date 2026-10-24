@@ -25,6 +25,7 @@ public:
     void deinit();
     void fetch(void (*func)(CURLcode));
     void download(void (*func)(CURLcode, std::vector<char>&));
+    void uninstall();
     void setDownloadedReleaseId(int64_t downloadVer);
     inline int64_t getDownloadedReleaseId() {
         return downloadedReleaseId;

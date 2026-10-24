@@ -22,6 +22,7 @@ static std::pair<const char*, const char*> en_US[] {
     { "settings-tab_modloader-sectionname", "Mod Loader" },
     { "settings-tab_modloader-fetch", "Fetch" },
     { "settings-tab_modloader-download", "Download" },
+    { "settings-tab_modloader-uninstall", "Uninstall" },
     { "settings-tab_modloader-status", "Status" },
     { "settings-tab_modloader-downloadedver", "Downloaded version" },
     { "settings-tab_modloader-downloadedver_refresh", "Refresh" },

@@ -87,6 +87,7 @@ inline void renderSettingsTab() {
             }
 
             auto* modLoaderHandler = ModLoaderHandler::instance;
+            modLoaderHandler->refreshDownloadedReleaseId();
             int64_t downloadedId = modLoaderHandler->getDownloadedReleaseId();
             if (modLoaderHandler->latestReleaseInfo.id == downloadedId)
                 statusMessage = translate("settings-tab_modloader-fetch_exists");
@@ -133,22 +134,29 @@ inline void renderSettingsTab() {
 
     ImGui::SameLine();
 
-    if (modLoaderHandler->getDownloadedReleaseId() == -1) {
+    if (modLoaderHandler->getDownloadedReleaseId() == -1)
         ImGui::Text(translate("settings-tab_modloader-fetch_noloader"));
-    }
-    else {
+    else
         ImGui::Text("%s: %ld", translate("settings-tab_modloader-downloadedver"), modLoaderHandler->getDownloadedReleaseId());
-        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 10, 10 });
-        if (ImGui::BeginPopupContextItem("downloadedver-popup")) {
-            if (ImGui::Selectable(translate("settings-tab_modloader-downloadedver_refresh"))) {
-                modLoaderHandler->refreshDownloadedReleaseId();
-                ImGui::CloseCurrentPopup();
-            }
 
-            ImGui::EndPopup();
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 10, 10 });
+    if (ImGui::BeginPopupContextItem("downloadedver-popup")) {
+        if (ImGui::Selectable(translate("settings-tab_modloader-downloadedver_refresh"))) {
+            modLoaderHandler->refreshDownloadedReleaseId();
+            ImGui::CloseCurrentPopup();
         }
-        ImGui::PopStyleVar();
+
+        ImGui::EndPopup();
     }
+    ImGui::PopStyleVar();
+
+    ImGui::SameLine();
+
+    ImGui::BeginDisabled(modLoaderHandler->getDownloadedReleaseId() == -1 || modLoaderHandler->downloading);
+    if (ImGui::Button(translate("settings-tab_modloader-uninstall"))) {
+        modLoaderHandler->uninstall();
+    }
+    ImGui::EndDisabled();
 
     if (statusCode != CURLE_OK)
         ImGui::Text("%s: %s %s", translate("settings-tab_modloader-status"), statusMessage, curl_easy_strerror(statusCode));

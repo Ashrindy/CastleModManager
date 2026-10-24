@@ -87,14 +87,21 @@ void ModLoaderHandler::download(void (*func)(CURLcode, std::vector<char>&)) {
     downloadThread.detach();
 }
 
+void ModLoaderHandler::uninstall() {
+    auto* settings = Settings::instance;
+    auto dataPath = std::filesystem::path{ settings->gameFolderPath } / "modloaderver.dat";
+    auto modLoaderPath = std::filesystem::path{ settings->gameFolderPath } / "d3d8.dll";
+    std::filesystem::remove(dataPath);
+    std::filesystem::remove(modLoaderPath);
+    refreshDownloadedReleaseId();
+}
+
 void ModLoaderHandler::setDownloadedReleaseId(int64_t id) {
     auto* settings = Settings::instance;
     auto dataPath = std::filesystem::path{ settings->gameFolderPath } / "modloaderver.dat";
-    if (std::filesystem::exists(dataPath)) {
-        FILE* file = fopen(dataPath.string().c_str(), "rb");
-        fwrite(&id, sizeof(int64_t), 1, file);
-        fclose(file);
-    }
+    FILE* file = fopen(dataPath.string().c_str(), "wb");
+    fwrite(&id, sizeof(int64_t), 1, file);
+    fclose(file);
 }
 
 void ModLoaderHandler::refreshDownloadedReleaseId() {
@@ -105,4 +112,6 @@ void ModLoaderHandler::refreshDownloadedReleaseId() {
         fread(&downloadedReleaseId, sizeof(int64_t), 1, file);
         fclose(file);
     }
+    else
+        downloadedReleaseId = -1;
 }
