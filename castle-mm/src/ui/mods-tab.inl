@@ -53,6 +53,7 @@ inline void renderModsTab() {
         
     int row = 0;
     ImVec2 lastScreenCursorPos{};
+    int modToDelete{ -1 };
 
     if (ImGui::BeginTable("mods-table", 3, ImGuiTableFlags_Borders | ImGuiTableFlags_BordersOuter, tableSize)) {
         ImGui::TableSetupColumn(translate("mods-tab_name"));
@@ -96,6 +97,19 @@ inline void renderModsTab() {
                 ImGuiSelectableFlags_AllowOverlap,
                 { ImGui::GetWindowWidth(), ImGui::GetFrameHeight() }
             );
+
+            ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 10, 10 });
+            if (ImGui::BeginPopupContextItem("mod-popup")){
+                if (ImGui::MenuItem(translate("mods-tab_deletemod")))
+                    modToDelete = row;
+                ImGui::SetItemTooltip(translate("mods-tab_deletemod-tooltip"));
+
+                if (ImGui::MenuItem(translate("mods-tab_revealmod")))
+                    app->revealMod(row);
+
+                ImGui::EndPopup();
+            }
+            ImGui::PopStyleVar();
 
             if (ImGui::BeginDragDropSource()) {
                 ImGui::SetDragDropPayload("ROW_INDEX", &row, sizeof(int));
@@ -141,12 +155,25 @@ inline void renderModsTab() {
         mods.insert(mods.begin() + reorderTo, row);
     }
 
+    if (modToDelete != -1) {
+        app->deleteMod(modToDelete);
+        app->saveMods(app->modsFolder);
+    }
+
     ImGui::SetCursorPosY(ImGui::GetCursorPosY() + padding);
 
     ImGui::BeginChild("mods-tab-buttons", { ImGui::GetWindowViewport()->Size.x, buttonModsHeight - padding });
 
     if (ImGui::Button(translate("mods-tab_refresh-list"), { ImGui::GetWindowViewport()->Size.x / 3 - padding, ImGui::GetContentRegionAvail().y }))
         app->reloadMods(app->modsFolder);
+
+    ImGui::SameLine();
+
+    if (ImGui::Button(translate("mods-tab_create-mod"), { ImGui::GetWindowViewport()->Size.x / 3 - padding, ImGui::GetContentRegionAvail().y })) {
+        app->createMod();
+        app->reloadMods(app->modsFolder);
+        app->revealMod("New Mod");
+    }
 
     ImGui::EndChild();
 }

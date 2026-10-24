@@ -156,6 +156,48 @@ void Application::saveMods(const std::filesystem::path& modsFolder) {
         mainIni << mod.id << "=" << (mod.folderPath / "mod.ini").string() << "\n";
 }
 
+void Application::deleteMod(int index) {
+    std::filesystem::remove_all(mods[index].folderPath);
+    mods.erase(mods.begin() + index);
+}
+
+void Application::revealMod(int index) {
+    auto& path = mods[index].folderPath;
+
+#ifdef __WIN32
+    ShellExecuteA(nullptr, "open", path.string().c_str(), nullptr, nullptr, SW_SHOW);
+#else
+    std::string cmd{ "xdg-open \"" + path.string() + "\"" };
+    std::system(cmd.c_str());
+#endif
+}
+
+void Application::revealMod(const std::string& name) {
+    auto it = std::find_if(mods.begin(), mods.end(), [name](const Mod& mod){
+        return mod.name == name;
+    });
+    revealMod(std::distance(mods.begin(), it));
+}
+
+void Application::createMod() {
+    auto newModDir = std::filesystem::path{ settings->modsFolderPath } / "new-mod";
+    std::filesystem::create_directory(newModDir);
+    
+    auto newModIni = newModDir / "mod.ini";
+    std::ofstream newIni{ newModIni };
+
+    newIni << "[Desc]\n";
+    newIni << "Name=New Mod\n";
+    newIni << "Author=";
+#ifdef __WIN32
+#else
+    newIni << getlogin() << "\n";
+#endif
+    newIni << "Version=1.0\n\n";
+    newIni << "[Main]\n";
+    newIni << "DLLFile=\n";
+}
+
 void Application::launchGame(const std::filesystem::path& gamePath) {
 #ifdef __WIN32
     STARTUPINFO si{};

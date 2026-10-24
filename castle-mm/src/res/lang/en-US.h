@@ -12,7 +12,11 @@ static std::pair<const char*, const char*> en_US[] {
     { "mods-tab_name", "Name" },
     { "mods-tab_author", "Author" },
     { "mods-tab_version", "Version" },
+    { "mods-tab_deletemod", "Delete mod" },
+    { "mods-tab_deletemod-tooltip", "Deletes all of the mod's contents." },
+    { "mods-tab_revealmod", "Open mod's directory" },
     { "mods-tab_refresh-list", "Refresh List" },
+    { "mods-tab_create-mod", "Create Mod" },
     // Settings tab
     { "settings-tab_modmanager-sectionname", "Mod Manager" },
     { "settings-tab_modmanager-mods_folder", "Mods Folder" },

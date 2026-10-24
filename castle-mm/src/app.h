@@ -27,6 +27,10 @@ public:
 	void loop();
 	void loadMods(const std::filesystem::path& modsFolder);
 	void saveMods(const std::filesystem::path& modsFolder);
+	void deleteMod(int index);
+	void revealMod(int index);
+	void revealMod(const std::string& name);
+	void createMod();
 	inline void reloadMods(const std::filesystem::path& modsFolder) {
 		mods.clear();
         loadMods(modsFolder);
