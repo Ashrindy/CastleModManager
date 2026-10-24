@@ -56,8 +56,8 @@ void Graphics::getDpiScale() {
 void Graphics::setWindowIcon() {
     int width, height, channels;
     unsigned char* pixels = stbi_load_from_memory(
-        (unsigned char*)castlemm_icon_256x256, 
-        sizeof(castlemm_icon_256x256), 
+        (unsigned char*)icon_32x32, 
+        sizeof(icon_32x32), 
         &width, 
         &height, 
         &channels, 

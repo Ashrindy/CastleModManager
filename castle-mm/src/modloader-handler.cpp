@@ -30,9 +30,7 @@ inline void setOpt(CURL* curl, const char* url, std::vector<char>& buffer)  {
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &buffer);
     curl_easy_setopt(curl, CURLOPT_USERAGENT, "Castle Mod Manager");
-#ifdef __WIN32
-    curl_easy_setopt(curl, CURLOPT_CAINFO, "cacert.pem");
-#else 
+#ifndef __WIN32
     curl_easy_setopt(curl, CURLOPT_CAINFO, "/etc/ssl/certs/ca-certificates.crt");
 #endif
 }

@@ -11,6 +11,7 @@
 
 #ifdef __WIN32
 #include <windows.h>
+#include <Lmcons.h>
 #else
 #include <sys/types.h>
 #include <unistd.h>
@@ -129,6 +130,34 @@ void Application::loadMods(const std::filesystem::path& modsFolder) {
 
             saveMods(modsFolder);
         }
+    } else {
+        auto modsFolderItBegin = std::filesystem::directory_iterator{ modsFolder };
+        auto modsFolderItEnd = std::filesystem::directory_iterator{};
+        std::vector<std::filesystem::directory_entry> missingMods{};
+        std::copy_if(modsFolderItBegin, modsFolderItEnd, std::back_inserter(missingMods), [](const std::filesystem::directory_entry& entry) {
+            return std::filesystem::exists(entry.path() / "mod.ini");
+        });
+    
+        for (auto& x : missingMods) {
+            Mod& mod = mods.emplace_back();
+            std::random_device rd;
+            std::vector<char> id{ 8 };
+            std::generate(id.begin(), id.end(), std::ref(rd));
+            mod.id = std::to_string(*(int64_t*)id.data());
+
+            mod.isEnabled = false;
+                    
+            std::string modIniPath = (x.path() / "mod.ini").string();
+            if (std::filesystem::exists(modIniPath)) {
+                INIReader modIni{ modIniPath };
+                mod.name = modIni.GetString("Desc", "Name", "");
+                mod.version = modIni.GetString("Desc", "Version", "");
+                mod.author = modIni.GetString("Desc", "Author", "");
+                mod.folderPath = std::filesystem::path{ modIniPath }.parent_path();
+            }
+        }
+
+        saveMods(modsFolder);
     }
 }
 
@@ -190,6 +219,13 @@ void Application::createMod() {
     newIni << "Name=New Mod\n";
     newIni << "Author=";
 #ifdef __WIN32
+    char username[UNLEN + 1];
+    DWORD size = UNLEN + 1;
+
+    if (GetUserNameA(username, &size))
+        newIni << username << '\n';
+    else
+        newIni << "NewModAuthor\n";
 #else
     newIni << getlogin() << "\n";
 #endif
