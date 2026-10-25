@@ -11,7 +11,7 @@
 
 #ifdef __WIN32
 #include <windows.h>
-#include <Lmcons.h>
+#include <lmcons.h>
 #else
 #include <sys/types.h>
 #include <unistd.h>

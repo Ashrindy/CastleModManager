@@ -29,7 +29,7 @@ inline void renderTab(const char* name, void (*func)()) {
 inline void renderButtons() {
     auto* app = Application::instance;
 
-#ifdef ENABLE_FLATPAK
+#ifndef __WIN32
     static constexpr int buttonCount{ 1 };
 #else
     static constexpr int buttonCount{ 2 };
@@ -40,15 +40,15 @@ inline void renderButtons() {
 
     ImGui::PushFont(Graphics::instance->largerFont);
 
-    if (ImGui::Button(translate("save-button-name"), { windowViewport->Size.x / buttonCount - padding * buttonCount , buttonHeight - padding }))
+    if (ImGui::Button(translate("save-button-name"), { windowViewport->Size.x / buttonCount - padding * 2 , buttonHeight - padding }))
         app->saveMods(app->modsFolder);
 
-    // TODO: Figure out how to launch the game in flatpak.
-#ifndef ENABLE_FLATPAK
+    // TODO: Figure out how to launch the game on Linux.
+#ifndef __WIN32
     ImGui::SameLine();
     ImGui::SetCursorPos({ ImGui::GetCursorPosX() + padding, ImGui::GetCursorPosY() });
 
-    if (ImGui::Button(translate("save-and-play-button-name"), { windowViewport->Size.x / buttonCount - padding * buttonCount, buttonHeight - padding })) {
+    if (ImGui::Button(translate("save-and-play-button-name"), { windowViewport->Size.x / buttonCount - padding * 2, buttonHeight - padding })) {
         app->saveMods(app->modsFolder);
         app->launchGame(std::filesystem::path{ Settings::instance->gameFolderPath } / "CastleStrike.exe");
     }

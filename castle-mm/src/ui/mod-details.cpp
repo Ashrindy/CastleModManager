@@ -25,7 +25,7 @@ void renderModDetails() {
 
     bool changed{ false };
 
-    constexpr ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoCollapse;
+    ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoCollapse;
 #ifndef __WIN32
     windowFlags |= ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize;
 #endif
@@ -53,8 +53,10 @@ void renderModDetails() {
                 row++;
             }
 
-            if (changed |= ImGui::Button(translate("general_add")))
+            if (ImGui::Button(translate("general_add"))) {
+                changed = true;
                 modDetails->dllFiles.emplace_back();
+            }
 
             ImGui::EndListBox();
         }
