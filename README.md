@@ -3,6 +3,8 @@
     Castle Mod Manager
 </h1>
 
+[![release](https://img.shields.io/github/v/release/Ashrindy/CastleModManager?color=red)](https://github.com/Ashrindy/CastleModManager/releases/latest)
+
 A mod manager for the game Castle Strike.
 
 ## Installation
