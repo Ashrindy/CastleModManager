@@ -67,6 +67,7 @@ Mod Application::loadMod(const std::filesystem::path& modPath) {
         mod.name = modIni.GetString("Desc", "Name", "");
         mod.version = modIni.GetString("Desc", "Version", "");
         mod.author = modIni.GetString("Desc", "Author", "");
+        mod.description = modIni.GetString("Desc", "Description", "");
         mod.folderPath = std::filesystem::path{ modPath }.parent_path();
         std::string dllFiles = modIni.GetString("Main", "DLLFile", "");
         if (!dllFiles.empty()) {
@@ -168,7 +169,8 @@ void Application::saveMod(const Mod& mod) {
     modIni << "[Desc]\n";
     modIni << "Name=" << mod.name << '\n';
     modIni << "Author=" << mod.author << '\n';
-    modIni << "Version=" << mod.version << "\n\n";
+    modIni << "Version=" << mod.version << "\n";
+    modIni << "Description=" << mod.description << "\n\n";
 
     modIni << "[Main]\n";
     modIni << "DLLFile=";

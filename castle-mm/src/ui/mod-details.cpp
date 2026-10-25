@@ -36,6 +36,7 @@ void renderModDetails() {
         changed |= settingEditor(translate("general_name"), modDetails->name);
         changed |= settingEditor(translate("general_version"), modDetails->version);
         changed |= settingEditor(translate("general_author"), modDetails->author);
+        changed |= settingEditor(translate("general_description"), modDetails->description);
 
         ImGui::SeparatorText(translate("general_main"));
         if (ImGui::BeginListBox(translate("mod-details_dllfiles"))) {

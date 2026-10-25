@@ -10,6 +10,8 @@ static std::pair<const char*, const char*> en_US[] {
     { "general_version", "Version" },
     { "general_main", "Main" },
     { "general_details", "Details" },
+    { "general_description", "Description" },
+    { "general_changelog", "Changelog" },
     // Tab names
     { "mods-tab-name", "Mods" },
     { "settings-tab-name", "Settings" },
@@ -45,4 +47,5 @@ static std::pair<const char*, const char*> en_US[] {
     { "settings-tab_modloader-fetch_newver", "There's a newer version available." },
     { "settings-tab_modloader-download_success", "Successfully downloaded latest version." },
     { "settings-tab_modloader-download_fail", "Failed to download." },
+    { "settings-tab_modloader-fetchedinfo", "Fetched information" },
 };

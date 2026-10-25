@@ -8,6 +8,7 @@ struct Mod {
 	std::string name;
 	std::string version;
 	std::string author;
+	std::string description;
 	std::string id;
 	std::vector<std::string> dllFiles;
 	std::filesystem::path folderPath;

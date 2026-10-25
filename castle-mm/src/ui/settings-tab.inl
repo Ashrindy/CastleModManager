@@ -148,6 +148,14 @@ inline void renderSettingsTab() {
     else
         ImGui::Text("%s: %s", translate("settings-tab_modloader-status"), statusMessage);
 
+    if (statusCode == CURLE_OK) {
+        if (ImGui::BeginListBox(translate("settings-tab_modloader-fetchedinfo"))) {
+            ImGui::Text("%s: %s", translate("general_name"), modLoaderHandler->latestReleaseInfo.name);
+            ImGui::Text("%s:\n %s", translate("general_changelog"), modLoaderHandler->latestReleaseInfo.changelog.c_str());
+            ImGui::EndListBox();
+        }
+    }
+
     if (changed) {
         modLoaderHandler->refreshDownloadedReleaseId();
         settings->serialize();
