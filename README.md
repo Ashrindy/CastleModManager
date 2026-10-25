@@ -38,6 +38,9 @@ $ cd build
 $ make -j 8
 ```
 
+# Credits
+Huge inspiration from [HedgeModManager](https://www.github.com/hedge-dev/HedgeModManager) and [HEML](https://www.github.com/hedge-dev/HE1ML).
+
 # Disclaimer
 
 Castle Mod Manager is not affiliated with or endorsed by the game's rights holders.
