@@ -82,6 +82,8 @@ Mod Application::loadMod(const std::filesystem::path& modPath) {
 }
 
 void Application::loadMods(const std::filesystem::path& modsFolder) {
+    if (!std::filesystem::exists(modsFolder)) return;
+
     std::filesystem::path mainIniPath{ modsFolder / "mods.ini" };
     if (std::filesystem::exists(mainIniPath)) {
         INIReader mainIni{ mainIniPath.string() };
