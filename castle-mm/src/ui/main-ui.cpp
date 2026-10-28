@@ -44,7 +44,7 @@ inline void renderButtons() {
         app->saveMods(app->modsFolder);
 
     // TODO: Figure out how to launch the game on Linux.
-#ifndef __WIN32
+#ifdef __WIN32
     ImGui::SameLine();
     ImGui::SetCursorPos({ ImGui::GetCursorPosX() + padding, ImGui::GetCursorPosY() });
 

@@ -1,4 +1,4 @@
-project("castle-mm" VERSION 0.0.1)
+project("castle-mm" VERSION 0.0.2)
 
 if(WIN32)
     set(WINDOWS_RESOURCES "src/res/resource.rc")
