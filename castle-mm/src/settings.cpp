@@ -21,6 +21,14 @@ void Settings::serialize(const std::filesystem::path& filepath) {
     SERIALIZE_VALUE("AutoFetchModLoader", autoFetch);
 }
 
+#ifdef __WIN32
+static const char* defaultGameDir{ "C:\\CastleStrike" };
+static const char* defaultModDir{ "C:\\CastleStrike\\mods" };
+#else
+static const char* defaultGameDir{ "~/CastleStrike" };
+static const char* defaultModDir{ "~/CastleStrike/mods" };
+#endif
+
 void Settings::deserialize(const std::filesystem::path& filepath) {
 #ifdef ENABLE_FLATPAK
     INIReader settings{ std::filesystem::path{ std::getenv("HOME") } / ".var/app/io.github.ashrindy.castlemodmanager/settings.ini" };
@@ -28,8 +36,8 @@ void Settings::deserialize(const std::filesystem::path& filepath) {
     INIReader settings{ filepath.string() };
 #endif
         
-    modsFolderPath = settings.GetString("Main", "ModsFolderPath", "C:\\CastleStrike\\mods");
-    gameFolderPath = settings.GetString("Main", "GameFolderPath", "C:\\CastleStrike");
+    modsFolderPath = settings.GetString("Main", "ModsFolderPath", defaultModDir);
+    gameFolderPath = settings.GetString("Main", "GameFolderPath", defaultGameDir);
     languageName = settings.GetString("Main", "LanguageName", "en-US");
     autoFetch = settings.GetBoolean("Main", "AutoFetchModLoader", false);
 }
